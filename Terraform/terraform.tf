@@ -1,4 +1,6 @@
-#This initializes AWS as the cloud provider and asks for AWS credentials
+/*
+This initializes AWS as the cloud provider and asks for AWS credentials
+*/
 
 terraform {
   required_providers {
