@@ -1,7 +1,4 @@
-/*
-This initializes AWS as the cloud provider and asks for AWS credentials
-*/
-
+#Initializes AWS as the cloud provider
 terraform {
   required_providers {
     aws = {
@@ -11,6 +8,7 @@ terraform {
   }
 }
 
+#Assigns AWS credentials
 provider "aws" {
   # Configuration options
   region = "us-east-1"
@@ -18,6 +16,7 @@ provider "aws" {
   secret_key = var.AWS-credentials[1]
 }
 
+#The variables used when assignging AWS credentials
 variable "AWS-credentials" {
     description = "Access_key and secret_key to connect to AWS account"
 }
