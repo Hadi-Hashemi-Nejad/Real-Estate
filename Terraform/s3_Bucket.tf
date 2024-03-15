@@ -1,4 +1,4 @@
-#Creating an s3 Bucket to be used as a data lake
+#Creating an AWS S3 Bucket to be used as a data lake
 resource "aws_s3_bucket" "s3_bucket" {
   bucket = "hadis-s3-project-bucket"
 
@@ -17,7 +17,7 @@ resource "aws_s3_bucket_versioning" "s3_versioning_configuration" {
   }
 }
 
-#Creating Folders in s3 Bucket that inherit bucket's encryption rules
+#Creating folders and subfolders in S3 Bucket which inherit the bucket's encryption rules
 resource "aws_s3_object" "s3-RealEstate-folder" {
   key                    = "Real-Estate/"
   bucket                 = aws_s3_bucket.s3_bucket.id
