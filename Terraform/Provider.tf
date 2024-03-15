@@ -16,7 +16,7 @@ provider "aws" {
   secret_key = var.AWS-credentials[1]
 }
 
-#The variables used when assignging AWS credentials
+#The variables used when assigning AWS credentials
 variable "AWS-credentials" {
     description = "Access_key and secret_key to connect to AWS account"
 }

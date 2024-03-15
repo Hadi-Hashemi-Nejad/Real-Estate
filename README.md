@@ -1,1 +1,3 @@
 # Real-Estate
+
+Terraform is used to create AWS infastructure. Remember to change directory to /Terraform when performing terraform actions in terminal. The Provider.tf file is used to initalize AWS. A user would need to retrieve their AWS account's credentials from the AWS website. Then save it in a terraform.tfstate appropriately or manually enter it when initalizing terraform (terraform init). The s3_Bucket.tf file is used to create AWS s3 which will be used as a data lake in this project. 
