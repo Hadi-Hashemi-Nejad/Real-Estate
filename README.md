@@ -1,10 +1,10 @@
-# Real-Estate
-
+# Dubai Distress Property Deal Finder
 ## Terraform
-Terraform is used to create the AWS infastructure for this project. To run terraform users need to download and go through terraform's installation steps. And Remember to change directory to ***./Terraform*** when performing terraform actions in terminal. The ***./Terraform/Provider.tf*** file is used to initalize AWS. Users would need to retrieve their AWS account's credentials from the AWS website. Then save it in a ***./Terraform/terraform.tfstate*** appropriately by writing `AWS-credentials = [<your access key>, <your secret_key>]`or manually enter it after initalizing terraform by `terraform init`. 
-
-The ***./Terraform/S3_Bucket.tf*** file is used to create the AWS S3 bucket which will be used as a data lake in this project. The bucket versioning is turned on using the `aws_s3_bucket_versioning` resource. This keeps different versions of the objects in the bucket and helps recover unintended actions. It may be benefical to turn this off in order to reduce costs if S3 costs are far too high. The resource `aws_s3_object` creates the folders and subfolders for the bucket.
-
-A VPC (Virtual Private Cloud) is created within ***./Terraform/VPC.tf*** to customize how the AWS services connect to one another and to the outside world. Within the VPC, a single public subnet is created that is open to the internet via an internet gateway.
+### Initialize
+Terraform is used to create the AWS infastructure for this project. To run terraform users need to download and go through terraform's installation steps. And Remember to change directory to ***./Terraform*** when performing terraform actions in terminal. The ***./Terraform/Terra_INIT.tf*** file is used to initalize AWS. Users would need to retrieve their AWS account's credentials from the AWS website. Then save it in a ***./Terraform/terraform.tfvars*** appropriately by writing `AWS-credentials = [<your access key>, <your secret_key>]`or manually enter it after initalizing terraform by `terraform init`. 
+### S3 Buckets
+The ***./Terraform/Terra_S3.tf*** file is used to create the AWS S3 bucket which will be used as a data lake in this project. The bucket versioning is turned on using the `aws_s3_bucket_versioning` resource. This keeps different versions of the objects in the bucket and helps recover unintended actions. It may be benefical to turn this off in order to reduce costs if S3 costs are far too high. The resource `aws_s3_object` creates the folders and subfolders for the bucket.
+### VPC
+A VPC (Virtual Private Cloud) is created within ***./Terraform/Terra_VPC.tf*** to customize how the AWS services connect to one another and to the outside world. Within the VPC, a single public subnet is created that is open to the internet via an internet gateway. The resource `aws_security_group` is defined for the VPC which allowed all ports to recieve and send anything. This is not a safe practice and may need to be changed later. Resources `aws_network_interface` and `aws_eip` are also created to provide an ip address to connect to the instances being created.
 
 Hadi: use ctrl+shift+v when editing this

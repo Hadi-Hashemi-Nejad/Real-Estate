@@ -59,9 +59,9 @@ resource "aws_security_group" "allow_traffic" {
 
   ingress {
     description = "All traffic into all ports"
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
     ipv6_cidr_blocks = ["::/0"]
   }
@@ -80,42 +80,36 @@ resource "aws_security_group" "allow_traffic" {
   }
 }
 
-#Testing
-# 7. Create a network interface with an ip in the subnet that was created in step 4
-resource "aws_network_interface" "web-server-nic" {
+# Creating a network interface with an ip in the subnet
+resource "aws_network_interface" "network-interface" {
   subnet_id       = aws_subnet.main_subnet.id
   private_ips     = ["10.0.1.50"]
   security_groups = [aws_security_group.allow_traffic.id]
 
 }
-# 8. Assign an elastic IP to the network interface created in step 7
 
-resource "aws_eip" "one" {
+# An elastic IP is assigned to the network interface in order to be able to connect machines
+resource "aws_eip" "eip" {
   domain                    = "vpc"
-  network_interface         = aws_network_interface.web-server-nic.id
+  network_interface         = aws_network_interface.network-interface.id
   associate_with_private_ip = "10.0.1.50"
   depends_on                = [aws_internet_gateway.VPC_gateway]
 }
 
-resource "aws_instance" "web-server-instance" {
-  ami               = "ami-0d7a109bf30624c99"
-  instance_type     = "t2.micro"
-  availability_zone = "us-east-1a"
-  key_name          = "main-key"
+# A simple ec2 instance if you'd like to test the VP
 
-  network_interface {
-    device_index         = 0
-    network_interface_id = aws_network_interface.web-server-nic.id
-  }
+# resource "aws_instance" "web-server-instance" {
+#   ami               = "ami-0d7a109bf30624c99" # Image ami be changed in the future. May need to be replaced from AWS website
+#   instance_type     = "t2.micro"
+#   availability_zone = "us-east-1a"
+#   key_name          = "main-key" # Grab a pem key-pair from AWS website and save it within ./Terraform
 
-  user_data = <<-EOF
-                #!/bin/bash
-                sudo apt update -y
-                sudo apt install apache2 -y
-                sudo systemctl start apache2
-                sudo bash -c 'echo your very first web server > /var/www/html/index.html'
-                EOF
-  tags = {
-    Name = "web-server"
-  }
-}
+#   network_interface {
+#     device_index         = 0
+#     network_interface_id = aws_network_interface.network-interface.id
+#   }
+
+#   tags = {
+#     Name = "web-server"
+#   }
+# }
