@@ -9,5 +9,6 @@ A VPC (Virtual Private Cloud) is created within ***./Terraform/Terra_VPC.tf*** t
 ### EMR
 An EMR (Elastic Map Reduce) cluster is created in ***./Terraform/Terra_EMR.tf*** to use a cluster of EC2 instances to run pyspark. This will allow us to scale our applications both veritically and horizontally. IAM roles are also created and assigned since EMR requires IAM roles. To connect to this cluster you'd need to download a pem key pair from AWS websiteand call it `main-key.pem`. Place it in your working directory and call: `terraform state show aws_emr_cluster.spark_cluster` to find your master_public_dns. Place it in `ssh -i "main-key.pem" ec2-user@<your master_public_dns>` to ssh into your cluster.
 
-Hadi: use ctrl+shift+v when editing this
+Hadi: use ctrl+shift+v when editing this.
+
 ssh -i "main-key.pem" ec2-user@34.204.100.161
