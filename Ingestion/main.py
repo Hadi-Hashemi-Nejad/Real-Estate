@@ -1,8 +1,9 @@
 import requests
+import json
 
-url = "https://bayut.p.rapidapi.com/auto-complete"
+url = "https://bayut.p.rapidapi.com/properties/list"
 
-querystring = {"query":"abu dhabi","hitsPerPage":"25","page":"0","lang":"en"}
+querystring = {"locationExternalIDs":"5002,6020","purpose":"for-sale","hitsPerPage":"2","lang":"en","sort":"city-level-score","categoryExternalID":"4","priceMax":"5000000","areaMin":"1300","roomsMin":"2","roomsMax":"2"}
 
 headers = {
 	"X-RapidAPI-Key": "f70d515e3fmshc7081c7447a5c31p1733e0jsnb81c8ac77ac8",
@@ -11,4 +12,6 @@ headers = {
 
 response = requests.get(url, headers=headers, params=querystring)
 
-print(response.json())
+# print(response.json())
+
+print(json.dumps(response.json(),indent=4))
