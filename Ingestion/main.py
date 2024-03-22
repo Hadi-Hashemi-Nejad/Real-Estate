@@ -12,6 +12,5 @@ headers = {
 
 response = requests.get(url, headers=headers, params=querystring)
 
-# print(response.json())
-
-print(json.dumps(response.json(),indent=4))
+# print(json.dumps(response.json(),indent=4))
+print(response.json().items())
