@@ -1,3 +1,4 @@
 Terraform/terraform.tfvars
 Terraform/.terraform/
 Terraform/main-key.pem
+Terraform/layer/python/*
