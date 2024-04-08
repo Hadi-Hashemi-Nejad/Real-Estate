@@ -1,7 +1,18 @@
 # Dubai Distress Property Deal Finder
+## Requirements
+- Terraform installation and configuration (https://www.youtube.com/watch?v=SLB_c_ayRMo&t=1211s&ab_channel=freeCodeCamp.org)
+- Git installation
+- Python installation
+## Steps
+- create a workspace and change directory to that workspace in terminal
+- `git clone https://github.com/Hadi-Hashemi-Nejad/Real-Estate`
+- `cd /Real-Estate/Terraform`
+- `terraform init`
+- create layer\python?
+- 
 ## Terraform
 ### Initialize
-Terraform is used to create the AWS infastructure for this project. To run terraform users need to download and go through terraform's installation steps. And Remember to change directory to ***./Terraform*** when performing terraform actions in terminal. The ***./Terraform/Terra_INIT.tf*** file is used to initalize AWS. Users would need to retrieve their AWS account's credentials from the AWS website. Then save it in a ***./Terraform/terraform.tfvars*** appropriately by writing `AWS-credentials = [<your access key>, <your secret_key>]`or manually enter it after initalizing terraform by `terraform init`. 
+Terraform is used to create the AWS infastructure for this project. To run terraform users need to download and go through terraform's installation steps. And Remember to change directory to ***./Terraform*** when performing terraform actions in terminal. The ***./Terraform/Terra_INIT.tf*** file is used to initalize AWS. Users would need to retrieve their AWS account's credentials from the AWS website. Then save it in a ***./Terraform/terraform.tfvars*** appropriately by writing `AWS-credentials = ["<your access key>", "<your secret_key>"]`or manually enter it after initalizing terraform by `terraform init`. 
 ### S3 Buckets
 The ***./Terraform/Terra_S3.tf*** file is used to create the AWS S3 bucket which will be used as a data lake in this project. The bucket versioning is turned on using the `aws_s3_bucket_versioning` resource. This keeps different versions of the objects in the bucket and helps recover unintended actions. It may be benefical to turn this off in order to reduce costs if S3 costs are far too high. The resource `aws_s3_object` creates the folders and subfolders for the bucket.
 ### VPC
