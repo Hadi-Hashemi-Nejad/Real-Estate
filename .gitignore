@@ -1,7 +1,6 @@
 Terraform/terraform.tfvars
 Terraform/.terraform/
 Terraform/main-key.pem
-Terraform/layer/python/*
 Terraform/layer.zip
 Ingestion/*.parquet
 Ingestion/main.zip
