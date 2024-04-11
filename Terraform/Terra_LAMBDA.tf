@@ -34,26 +34,26 @@ resource "aws_lambda_function" "my_lambda" {
   runtime = "python3.8"
 }
 
-resource "null_resource" "pip_install" {
-  triggers = {
-    shell_hash = "${sha256(file("${path.module}/../requirements.txt"))}"
-  }
+# resource "null_resource" "pip_install" {
+#   triggers = {
+#     shell_hash = "${sha256(file("${path.module}/../requirements.txt"))}"
+#   }
 
-  provisioner "local-exec" {
-    command = "sudo python3 -m pip install -r ../requirements.txt -t ${path.module}/layer/python --platform manylinux2014_aarch64 --implementation cp --only-binary=:all: --upgrade"
-  }
-}
+#   provisioner "local-exec" {
+#     command = "sudo python3 -m pip install -r ../requirements.txt -t ${path.module}/layer/python --platform manylinux2014_aarch64 --implementation cp --only-binary=:all: --upgrade"
+#   }
+# }
 
-data "archive_file" "layer" {
-  type        = "zip"
-  source_dir  = "${path.module}/layer"
-  output_path = "${path.module}/layer.zip"
-  depends_on  = [null_resource.pip_install]
-}
+# data "archive_file" "layer" {
+#   type        = "zip"
+#   source_dir  = "${path.module}/layer"
+#   output_path = "${path.module}/layer.zip"
+#   depends_on  = [null_resource.pip_install]
+# }
 
-resource "aws_lambda_layer_version" "layer" {
-  layer_name          = "requirements-layer"
-  filename            = data.archive_file.layer.output_path
-  source_code_hash    = data.archive_file.layer.output_base64sha256
-  compatible_runtimes = ["python3.9", "python3.8", "python3.7", "python3.6"]
-}
+# resource "aws_lambda_layer_version" "layer" {
+#   layer_name          = "requirements-layer"
+#   filename            = data.archive_file.layer.output_path
+#   source_code_hash    = data.archive_file.layer.output_base64sha256
+#   compatible_runtimes = ["python3.9", "python3.8", "python3.7", "python3.6"]
+# }
