@@ -16,23 +16,46 @@ resource "aws_iam_role" "iam_for_lambda" {
   assume_role_policy = data.aws_iam_policy_document.assume_role.json
 }
 
-data "archive_file" "lambda" {
-  type        = "zip"
-  source_file = "${path.module}/../Ingestion/main.py"
-  output_path = "${path.module}/../Ingestion/main.zip"
+variable "env_name" {
+  description = "Environment Name"
 }
 
-resource "aws_lambda_function" "my_lambda" {
-  # If the file is not in the current working directory you will need to include a
-  # path.module in the filename.
-  filename      = data.archive_file.lambda.output_path
-  function_name = "bayut_ingestions"
-  role          = aws_iam_role.iam_for_lambda.arn
-  handler       = "main.run"
-  source_code_hash = data.archive_file.lambda.output_base64sha256
-  layers           = [aws_lambda_layer_version.layer.arn]
-  runtime = "python3.8"
+data "aws_ecr_repository" "ingestion_ecr_repo" {
+  name = "public.ecr.aws/g4j2y3f2/bayut-ingestion-image:latest"
 }
+
+resource "aws_lambda_function" "profile_faker_function" {
+  function_name = "bayut-ingestion-image-${var.env_name}"
+  timeout       = 300 # seconds
+  image_uri     = "${data.aws_ecr_repository.ingestion_ecr_repo.repository_url}:${var.env_name}"
+  package_type  = "Image"
+
+  role = aws_iam_role.iam_for_lambda.arn
+
+  environment {
+    variables = {
+      ENVIRONMENT = var.env_name
+    }
+  }
+}
+
+# data "archive_file" "lambda" {
+#   type        = "zip"
+#   source_file = "${path.module}/../Ingestion/main.py"
+#   output_path = "${path.module}/../Ingestion/main.zip"
+# }
+
+# resource "aws_lambda_function" "my_lambda" {
+#   # If the file is not in the current working directory you will need to include a
+#   # path.module in the filename.
+#   filename      = data.archive_file.lambda.output_path
+#   function_name = "bayut_ingestions"
+#   role          = aws_iam_role.iam_for_lambda.arn
+#   handler       = "main.run"
+#   source_code_hash = data.archive_file.lambda.output_base64sha256
+#   layers           = [aws_lambda_layer_version.layer.arn]
+#   runtime = "python3.8"
+# }
 
 # resource "null_resource" "pip_install" {
 #   triggers = {

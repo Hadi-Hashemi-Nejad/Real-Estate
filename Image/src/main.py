@@ -1,8 +1,10 @@
 import requests
 from datetime import date
 import pandas as pd
-# import pyarrow as pa
-# import pyarrow.parquet as pq
+import pyarrow as pa
+import pyarrow.parquet as pq
+import boto3
+import json
 
 class importer:
     def __init__(self, areaID=6901):
@@ -32,11 +34,12 @@ class importer:
         '''
         nbPages = int(requests.get(self.url, headers=self.headers, params=self.querystring).json().get("nbPages"))
         for page in range(nbPages):
+            print("Reading page %d of %d in paginated API calls"%(page, nbPages))
             self.querystring["page"] = str(page)
             response = requests.get(self.url, headers=self.headers, params=self.querystring).json()
             df = pd.DataFrame(response.get("hits"))
             self.result = pd.concat([self.result, df], ignore_index=True)
-            break
+        print("All API calls are completed")
         
     def save_result(self):
         '''
@@ -44,17 +47,18 @@ class importer:
         '''
         self.result["ownerID"] = self.result["ownerID"].astype(str) #Some ownerID are not digits. Will need to research
         self.result = self.result.drop('extraFields', axis=1) #This column is empty and schema cannot guess type
-        s3_url = "s3://hadis-s3-project-bucket/Real-Estate/input/"+str(date.today())+"_"+self.areaID+".parquet.gzip"
-        self.result.to_parquet(s3_url, compression='gzip')
-        # table = pa.Table.from_pandas(self.result)
-        # pq.write_table(table, str(date.today())+'.parquet')
+        self.file_name = str(date.today())+"_"+self.areaID+".parquet.gzip"
+        table = pa.Table.from_pandas(self.result)
+        pq.write_table(table, self.file_name)
+
+        with open("AWS_credentials.txt", "r") as creds:
+            creds_list = json.loads(creds.read())
+        s3_client = boto3.client('s3', aws_access_key_id=creds_list[0], aws_secret_access_key=creds_list[1])
+        s3_client.upload_file(self.file_name, "hadis-s3-project-bucket","Real-Estate/input/"+self.file_name)
+        print("saved result in s3 bucket")
+
         
-# if __name__ == "__main__":
-#     areaIDs = [6901]
-#     for areaID in areaIDs:
-#         main(areaID)
-        
-def run():
+def handler(event, context):
     areaIDs = [6901]
     for areaID in areaIDs:
         importer(areaID)

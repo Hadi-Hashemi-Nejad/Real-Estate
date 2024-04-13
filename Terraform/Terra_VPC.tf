@@ -98,23 +98,23 @@ resource "aws_eip" "eip" {
 
 # A simple ec2 instance if you'd like to test the VP
 
-resource "aws_instance" "ec2-instance" {
-  ami               = "ami-0d7a109bf30624c99" # Image ami be changed in the future. May need to be replaced from AWS website
-  instance_type     = "t2.micro"
-  availability_zone = "us-east-1a"
-  key_name          = "main-key" # Grab a pem key-pair from AWS website and save it within ./Terraform
+# resource "aws_instance" "ec2-instance" {
+#   ami               = "ami-0d7a109bf30624c99" # Image ami be changed in the future. May need to be replaced from AWS website
+#   instance_type     = "t2.micro"
+#   availability_zone = "us-east-1a"
+#   key_name          = "main-key" # Grab a pem key-pair from AWS website and save it within ./Terraform
 
-  network_interface {
-    device_index         = 0
-    network_interface_id = aws_network_interface.network-interface.id
-  }
+#   network_interface {
+#     device_index         = 0
+#     network_interface_id = aws_network_interface.network-interface.id
+#   }
 
-  tags = {
-    Name = "my_ec2"
-  }
-}
+#   tags = {
+#     Name = "my_ec2"
+#   }
+# }
 
-output "ec2_ip_address" {
-  # value = ["${aws_instance.ec2-instance.*.public_ip}"]
-  value = aws_instance.ec2-instance.*.public_ip
-}
+# output "ec2_ip_address" {
+#   # value = ["${aws_instance.ec2-instance.*.public_ip}"]
+#   value = aws_instance.ec2-instance.*.public_ip
+# }

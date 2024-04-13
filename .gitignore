@@ -1,6 +1,7 @@
 Terraform/terraform.tfvars
 Terraform/.terraform/
 Terraform/main-key.pem
-Terraform/layer.zip
-Ingestion/*.parquet
-Ingestion/main.zip
+# Terraform/layer.zip
+# Ingestion/main.zip
+Image/src/*.parquet
+Image/src/AWS_credentials.txt

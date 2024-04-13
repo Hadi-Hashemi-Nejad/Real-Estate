@@ -2,4 +2,6 @@ urllib3==1.26.15
 requests
 datetime
 pandas
-# pyarrow
+pyarrow
+fastparquet
+boto3
