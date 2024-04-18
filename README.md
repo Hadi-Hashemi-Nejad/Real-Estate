@@ -4,6 +4,7 @@
 - Git installation
 - Python installation and upgrade
 - Pip installation and upgrade
+- Gradle installation
 ## Steps
 - create a workspace and change directory to that workspace in terminal
 - `git clone https://github.com/Hadi-Hashemi-Nejad/Real-Estate`
