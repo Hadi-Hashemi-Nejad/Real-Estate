@@ -43,22 +43,35 @@ class importer:
         
     def save_result(self):
         '''
-        The joined API calls are saved as a parquet file
+        The joined API calls are saved as a parquet file in your s3 bucket
         '''
         self.result["ownerID"] = self.result["ownerID"].astype(str) #Some ownerID are not digits. Will need to research
         self.result = self.result.drop('extraFields', axis=1) #This column is empty and schema cannot guess type
-        self.file_name = str(date.today())+"_"+self.areaID+".parquet.gzip"
         table = pa.Table.from_pandas(self.result)
-        pq.write_table(table, self.file_name)
+        self.file_name = str(date.today())+"_"+self.areaID+".parquet.gzip"
+        # pq.write_table(table, self.file_name)
 
         with open("AWS_credentials.txt", "r") as creds:
             creds_list = json.loads(creds.read())
-        s3_client = boto3.client('s3', aws_access_key_id=creds_list[0], aws_secret_access_key=creds_list[1])
-        s3_client.upload_file(self.file_name, "hadis-s3-project-bucket","Real-Estate/input/"+self.file_name)
+        # s3_client = boto3.client('s3', aws_access_key_id=creds_list[0], aws_secret_access_key=creds_list[1])
+        # s3_client.upload_file(self.file_name, "hadis-s3-project-bucket","Real-Estate/input/"+self.file_name)
+
+        writer = pa.BufferOutputStream()
+        pq.write_table(table, writer)
+        body = bytes(writer.getvalue())
+        session = boto3.Session(region_name="us-east-1", aws_access_key_id=creds_list[0], aws_secret_access_key=creds_list[1])
+        s3 = session.client("s3")
+        s3.put_object(Body=body, Bucket="hadis-s3-project-bucket", Key="Real-Estate/input/"+self.file_name)
+
         print("saved result in s3 bucket")
 
         
 def handler(event, context):
+    areaIDs = [6901]
+    for areaID in areaIDs:
+        importer(areaID)
+
+if __name__ == "__main__":
     areaIDs = [6901]
     for areaID in areaIDs:
         importer(areaID)
