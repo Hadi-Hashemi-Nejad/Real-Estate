@@ -24,10 +24,10 @@ class importer:
         self.querystring["locationExternalIDs"] = self.areaID
         self.result = pd.DataFrame()
 		#Running functions now
-        self.loop_pages_in_requests()
+        self.bayut_pages_in_requests()
         self.save_result()
     
-    def loop_pages_in_requests(self):
+    def bayut_pages_in_requests(self):
         '''
         Bayut API is paginated (max 25 properties per page). This loops through pages of API for chosen Query 
         and creates a joined dataframe.
@@ -49,12 +49,9 @@ class importer:
         self.result = self.result.drop('extraFields', axis=1) #This column is empty and schema cannot guess type
         table = pa.Table.from_pandas(self.result)
         self.file_name = str(date.today())+"_"+self.areaID+".parquet.gzip"
-        # pq.write_table(table, self.file_name)
 
         with open("AWS_credentials.txt", "r") as creds:
             creds_list = json.loads(creds.read())
-        # s3_client = boto3.client('s3', aws_access_key_id=creds_list[0], aws_secret_access_key=creds_list[1])
-        # s3_client.upload_file(self.file_name, "hadis-s3-project-bucket","Real-Estate/input/"+self.file_name)
 
         writer = pa.BufferOutputStream()
         pq.write_table(table, writer)
