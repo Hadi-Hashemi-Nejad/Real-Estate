@@ -5,6 +5,8 @@
 - Python installation and upgrade
 - Pip installation and upgrade
 - Gradle installation
+- AWS CLI (https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
+- Docker (https://docs.docker.com/desktop/install/windows-install/)
 ## Steps
 - create a workspace and change directory to that workspace in terminal
 - `git clone https://github.com/Hadi-Hashemi-Nejad/Real-Estate`
@@ -20,6 +22,6 @@ The ***./Terraform/Terra_S3.tf*** file is used to create the AWS S3 bucket which
 ### VPC
 A VPC (Virtual Private Cloud) is created within ***./Terraform/Terra_VPC.tf*** to customize how the AWS services connect to one another and to the outside world. Within the VPC, a single public subnet is created that is open to the internet via an internet gateway. The resource `aws_security_group` is defined for the VPC which allowed all ports to recieve and send anything. This is not a safe practice and may need to be changed later. Resources `aws_network_interface` and `aws_eip` are also created to provide an ip address to connect to the instances being created.
 ### EMR
-An EMR (Elastic Map Reduce) cluster is created in ***./Terraform/Terra_EMR.tf*** to use a cluster of EC2 instances to run pyspark. This will allow us to scale our applications both veritically and horizontally. IAM roles are also created and assigned since EMR requires IAM roles. To connect to this cluster you'd need to download a pem key pair from AWS websiteand call it `main-key.pem`. Place it in your working directory and call: `terraform output emr_ip_address` to find the emr's ip adress. Place it in `ssh -i "main-key.pem" ec2-user@<the ip address without quotes>` to ssh into your cluster.
+An EMR (Elastic Map Reduce) cluster is created in ***./Terraform/Terra_EMR.tf*** to use a cluster of EC2 instances to run pyspark. This will allow us to scale our applications both veritically and horizontally. IAM roles are also created and assigned since EMR requires IAM roles. To connect to this cluster you'd need to download a pem key pair from AWS websiteand call it `main-access-key-pair.pem`. Place it in user/your_user_name and call: `terraform output emr_ip_address` to find the emr's ip adress. Place it in `ssh -i ~/main-access-key-pair.pem hadoop@<the ip address without quotes>` to ssh into your cluster.
 
 Hadi: use ctrl+shift+v when editing this.
