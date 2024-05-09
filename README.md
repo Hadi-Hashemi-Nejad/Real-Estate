@@ -1,4 +1,4 @@
-# Dubai Distress Property Deal Finder
+# Dubai Distress Property Deal Finder - Work in Progress
 ## Requirements
 - Terraform installation and configuration (https://www.youtube.com/watch?v=SLB_c_ayRMo&t=1211s&ab_channel=freeCodeCamp.org)
 - Git installation
