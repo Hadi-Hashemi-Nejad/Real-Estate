@@ -1,7 +1,6 @@
 Terraform/terraform.tfvars
 Terraform/.terraform/
 Terraform/main-key.pem
-Terraform/Image/src/AWS_credentials.txt
 Cleaning/*.parquet.*
 Cleaning/AWS_credentials.txt
 # Terraform/layer.zip

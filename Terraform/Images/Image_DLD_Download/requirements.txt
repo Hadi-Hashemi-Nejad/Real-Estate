@@ -1,0 +1,5 @@
+urllib3==1.26.15 #do we need this?
+requests
+datetime
+pyarrow
+boto3
