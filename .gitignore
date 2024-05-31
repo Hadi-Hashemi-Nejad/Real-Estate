@@ -3,5 +3,6 @@ Terraform/.terraform/
 Terraform/main-key.pem
 Cleaning/*.parquet.*
 Cleaning/AWS_credentials.txt
+Terraform/.aws/config
 # Terraform/layer.zip
 # Ingestion/main.zip
