@@ -12,6 +12,7 @@
 - `cd /Real-Estate/Terraform`
 - `terraform init`
 - `echo "AWS-credentials = ["<your access key>", "<your secret_key>"]" >> terraform.tfvars` where ***\<your access key\>*** and ***\<your secret_key\>*** are the keys you retieve from your AWS account.
+- `echo "unique_s3_name = "<a unique name for your s3 storage>"" >> terraform.tfvars` where ***\<a unique name for your s3 storage\>*** is any unique name for your s3 storage
 - `terraform apply --auto-approve`
 ## Terraform
 ### Initialize
@@ -25,6 +26,6 @@ An ECR (Elastic Container Registery) is created in ***./Terraform/Terra_ECR.tf**
 ### Lambda
 Lambda functions are created in ***./Terraform/Terra_LAMBDA.tf*** to ingest Bayut's property listings from ***https://rapidapi.com/apidojo/api/bayut*** & Dubai Land Department's (DLD) historical transactions from ***https://www.dubaipulse.gov.ae/data/dld-transactions/dld_transactions-open*** and then upload them to the S3 bucket. AWS Lambda is a serverless cloud computing service that will allow us to only be running servers when python scripts are be scheduled to run and thus reduce costs. Two seperate functions are made for each ingestion job and each use their respective images created and uploaded to ECR. Please beware that the DLD transaction files are about 50 mb each and thus take several minutes for the lambda function to run.
 ### EMR
-An EMR (Elastic Map Reduce) cluster is created in ***./Terraform/Terra_EMR.tf*** to use a cluster of EC2 instances to run pyspark. This will allow us to scale our applications both veritically and horizontally. IAM roles are also created and assigned since EMR requires IAM roles. To connect to this cluster you'd need to download a pem key pair from AWS websiteand call it `main-access-key-pair.pem`. Place it in user/your_user_name and call: `terraform output emr_ip_address` to find the emr's ip adress. Place it in `ssh -i ~/main-access-key-pair.pem hadoop@<the ip address without quotes>` to ssh into your cluster.
+An EMR (Elastic Map Reduce) cluster is created in ***./Terraform/Terra_EMR.tf*** to use a cluster of EC2 instances to run pyspark. This will allow us to scale our applications both veritically and horizontally. IAM roles are also created and assigned since EMR requires IAM roles. To connect to this cluster you'd need to download a pem key pair from AWS websiteand call it `main-access-key-pair.pem`. Place it in user/your_user_name and call: `terraform output emr_ip_address` to find the emr's ip address. Place it in `ssh -i ~/main-access-key-pair.pem hadoop@<the ip address without quotes>` to ssh into your cluster.
 
 Hadi: use ctrl+shift+v when editing this.

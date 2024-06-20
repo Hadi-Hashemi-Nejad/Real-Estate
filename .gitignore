@@ -1,6 +1,6 @@
 Terraform/terraform.tfvars
 Terraform/.terraform/
-Terraform/main-key.pem
+main-access-key-pair.pem
 Cleaning/*.parquet.*
 Cleaning/AWS_credentials.txt
 Terraform/.aws/config

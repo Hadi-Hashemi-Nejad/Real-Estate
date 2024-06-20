@@ -20,7 +20,7 @@ class importer:
                             "lang":"en",
                             "sort":"date-desc",
                             "categoryExternalID":"4",
-                            "priceMax":"4000000",
+                            "priceMax":"5000000",
                             "areaMin":"120",
                             "roomsMin":"2","roomsMax":"2"}
         self.querystring["locationExternalIDs"] = self.areaID

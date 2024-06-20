@@ -96,7 +96,7 @@ resource "aws_eip" "eip" {
   depends_on                = [aws_internet_gateway.VPC_gateway]
 }
 
-# A simple ec2 instance if you'd like to test the VP
+# A simple ec2 instance if you'd like to test the VPC
 
 # resource "aws_instance" "ec2-instance" {
 #   ami               = "ami-0d7a109bf30624c99" # Image ami be changed in the future. May need to be replaced from AWS website

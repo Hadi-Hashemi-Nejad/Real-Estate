@@ -1,6 +1,9 @@
 #Creating an AWS S3 Bucket to be used as a data lake
+variable "unique_s3_name" {
+    description = "A unqiue S3 bucket name"
+}
 resource "aws_s3_bucket" "s3_bucket" {
-  bucket = "hadis-s3-project-bucket"
+  bucket = var.unique_s3_name
   force_destroy = true
 
   tags = {
